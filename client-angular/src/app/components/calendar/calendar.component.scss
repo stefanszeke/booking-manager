@@ -1,0 +1,57 @@
+.wrapper {
+  margin: 20px auto;
+  width: 700px;
+  display: grid;
+  justify-content: center;
+}
+
+table {
+  min-height: 400px;
+}
+
+tr {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  
+}
+
+td,th {
+  border: 1px solid rgb(255, 255, 255);
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  height: 50px;
+  width: 90px;
+  user-select: none;
+}
+
+th {
+  background-color: rgb(44, 44, 47);
+  color: white;
+}
+
+td {
+  cursor: pointer;
+  &:hover {
+    filter: brightness(0.9);
+  }
+  transition: 90ms;
+}
+
+
+
+.thisMonth {
+  background-color: rgb(55, 128, 151);
+  color: white;
+}
+
+.notThisMonth {
+  background-color: rgba(171, 171, 171, 0.24);
+  color: grey
+}
+
+.selected {
+  background-color: rgb(60, 153, 97);
+  color: white;
+  font-size: 1.5rem;
+}

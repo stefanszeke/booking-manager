@@ -1,0 +1,48 @@
+<div class="wrapper">
+
+  <p>calendar works!</p>
+
+  <h2>{{ today.toLocaleString('en-GB',{month:"long"}) }}</h2>
+  <h2>{{ today.getFullYear() }}</h2>
+  <table>
+    <tr>
+      <th>Mon</th>
+      <th>Tue</th>
+      <th>Wed</th>
+      <th>Thu</th>
+      <th>Fri</th>
+      <th>Sat</th>
+      <th>Sun</th>
+    </tr>
+
+    <tr>
+      <td *ngFor="let day of daysInTheMonth"
+      [ngClass]="{
+        'thisMonth':today.getMonth() === day.getMonth(),
+        'notThisMonth':today.getMonth() != day.getMonth(),
+        'selected':isSelected(day)
+      }"
+
+      (click)="selectDay(day)"
+      >
+        {{ day.toLocaleString('en-GB',{day:"numeric"}) }}
+      </td>
+    </tr> 
+
+  </table>
+
+  <div class="buttons">
+    <button (click)="prevMonth()">prev month</button>
+    <button (click)="nextMonth()">next month</button>
+  </div>
+  
+  <p *ngIf="selectedDays.length < 2"> please select at least two days</p>
+  <div *ngIf="selectedDays.length >= 2">
+    <p>check in: {{ selectedDays[0].toLocaleString('en-GB',{weekday:"long",day:"numeric", month:"long"}) }}</p>
+    <p>check out: {{ selectedDays[selectedDays.length-1].toLocaleString('en-GB',{weekday:"long",day:"numeric", month:"long"}) }}</p>
+    <p> number of nights: {{ selectedDays.length -1 }}</p>
+  </div>
+
+
+
+</div>
