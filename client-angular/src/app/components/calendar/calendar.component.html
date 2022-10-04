@@ -1,6 +1,7 @@
 <div class="wrapper">
 
   <p>calendar works!</p>
+  <button (click)="setDaysInTheMonth()">setdaysinthemonth</button>
 
   <h2>{{ today.toLocaleString('en-GB',{month:"long"}) }}</h2>
   <h2>{{ today.getFullYear() }}</h2>
@@ -20,7 +21,7 @@
       [ngClass]="{
         'thisMonth':today.getMonth() === day.getMonth(),
         'notThisMonth':today.getMonth() != day.getMonth(),
-        'selected':isSelected(day)
+        'selected': isSelected(day)
       }"
 
       (click)="selectDay(day)"

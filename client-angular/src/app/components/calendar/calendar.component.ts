@@ -5,12 +5,15 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
 })
+
 export class CalendarComponent implements OnInit {
 
   today = new Date();
   daysInTheMonth:Date[] = []
 
   selectedDays:Date[] = []
+
+  testnumber = 10
 
   constructor() { }
 
@@ -25,8 +28,8 @@ export class CalendarComponent implements OnInit {
 
   checkToRemove(day:Date) {
     if(this.selectedDays.length === 1) { this.selectedDays = [] }
-    else if (this.getFirstSelectedDay() === day) { this.selectedDays.shift() }
-    else if (this.getLastSelectedDay() === day) { this.selectedDays.pop() }
+    else if ( this.isSameDate(this.getFirstSelectedDay(),day) ) { this.selectedDays.shift() }
+    else if ( this.isSameDate(this.getLastSelectedDay(),day) ) { this.selectedDays.pop() }
   }
 
   checkToAdd(day:Date) {
@@ -61,8 +64,13 @@ export class CalendarComponent implements OnInit {
 
 
 
-  isSelected(day:Date) {
-    return this.selectedDays.includes(day)
+  isSelected(day:Date):boolean {
+    let selected = false
+    this.selectedDays.forEach(selectedDay => {
+      if(this.isSameDate(selectedDay, day)) { selected = true }
+
+    })
+    return selected
   }
 
   setDaysInTheMonth() {
