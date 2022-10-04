@@ -1,49 +1,87 @@
 <div class="wrapper">
 
-  <p>calendar works!</p>
-  <button (click)="setDaysInTheMonth()">setdaysinthemonth</button>
+  <h1 id="title">Booking Calendar</h1>
 
-  <h2>{{ today.toLocaleString('en-GB',{month:"long"}) }}</h2>
-  <h2>{{ today.getFullYear() }}</h2>
-  <table>
-    <tr>
-      <th>Mon</th>
-      <th>Tue</th>
-      <th>Wed</th>
-      <th>Thu</th>
-      <th>Fri</th>
-      <th>Sat</th>
-      <th>Sun</th>
-    </tr>
 
-    <tr>
-      <td *ngFor="let day of daysInTheMonth"
-      [ngClass]="{
-        'thisMonth':today.getMonth() === day.getMonth(),
-        'notThisMonth':today.getMonth() != day.getMonth(),
-        'selected': isSelected(day)
-      }"
-
-      (click)="selectDay(day)"
-      >
-        {{ day.toLocaleString('en-GB',{day:"numeric"}) }}
-      </td>
-    </tr> 
-
-  </table>
-
-  <div class="buttons">
-    <button (click)="prevMonth()">prev month</button>
-    <button (click)="nextMonth()">next month</button>
+  <div class="calender-head">
+    <h2>{{ today.toLocaleString('en-GB',{month:"long"}) }}</h2>
+    <h2>{{ today.getFullYear() }}</h2>
   </div>
+
+  <table>
+
+    <div class="table-calendar">
+      <tr>
+        <th>Mon</th>
+        <th>Tue</th>
+        <th>Wed</th>
+        <th>Thu</th>
+        <th>Fri</th>
+        <th>Sat</th>
+        <th>Sun</th>
+      </tr>
+  
+      <tr>
+        <td *ngFor="let day of daysInTheMonth"
+        [ngClass]="{
+          'thisMonth':today.getMonth() === day.getMonth(),
+          'notThisMonth':today.getMonth() != day.getMonth(),
+          'selected': isSelected(day)
+        }"
+  
+        (click)="selectDay(day)"
+        >
+          {{ day.toLocaleString('en-GB',{day:"numeric"}) }}
+        </td>
+      </tr>
+    </div>
+
+    <div class="table-buttons">
+      <div>
+        <button (click)="clearSelection()">clear</button>
+        <button (click)="resetDate()">reset date</button>
+      </div>
+      <div>
+        <button (click)="prevMonth()">prev month</button>
+        <button (click)="nextMonth()">next month</button>
+      </div>
+    </div>
+    
+  </table>
+  
+
+
+
+  <form class="CalendarForm" [formGroup]="calendarForm">
+
+    <label for="adults">Adults:</label>
+    <select name="adults" id="adults" formControlName="adults">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+    </select>
+
+    <label for="children">Children:</label>
+    <select name="children" id="children" formControlName="children">
+      <option value="0">0</option>
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+    </select>
+  </form>
+
+  <p>adults: {{calendarForm.value.adults}} x 50 = {{calendarForm.value.adults*50}}€</p>
+  <p>adults: {{calendarForm.value.children}} x 30 = {{calendarForm.value.children*30}}€</p>
+  <p> number of nights: {{ getNumberOfNights() }}</p>
+  <p>{{ totalPay.toFixed(2) }} €</p>
   
   <p *ngIf="selectedDays.length < 2"> please select at least two days</p>
   <div *ngIf="selectedDays.length >= 2">
     <p>check in: {{ selectedDays[0].toLocaleString('en-GB',{weekday:"long",day:"numeric", month:"long"}) }}</p>
     <p>check out: {{ selectedDays[selectedDays.length-1].toLocaleString('en-GB',{weekday:"long",day:"numeric", month:"long"}) }}</p>
-    <p> number of nights: {{ selectedDays.length -1 }}</p>
   </div>
-
-
+  
+  <button (click)="formButton()">submit</button>
 
 </div>

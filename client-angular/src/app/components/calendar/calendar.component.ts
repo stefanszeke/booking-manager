@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-calendar',
@@ -13,17 +14,30 @@ export class CalendarComponent implements OnInit {
 
   selectedDays:Date[] = []
 
-  testnumber = 10
+  calendarForm: FormGroup;
 
-  constructor() { }
+  totalPay = 0;
+
+  constructor(private formBuilder: FormBuilder) { 
+    this.calendarForm = this.formBuilder.group({
+      adults: [1, Validators.required],
+      children: [0, Validators.required],
+      nights: [0, Validators.required]
+    });
+  }
 
   ngOnInit(): void {
     this.setDaysInTheMonth();
+
+    this.calendarForm.valueChanges.subscribe(value => {
+      this.totalPay = ((value.adults * 50 ) + (value.children * 30)) * value.nights
+    })
   }
 
   selectDay(day:Date) {
     if(this.isSelected(day)) { this.checkToRemove(day)}
     else { this.checkToAdd(day) }
+    this.calendarForm.patchValue({nights: this.getNumberOfNights()})
   }
 
   checkToRemove(day:Date) {
@@ -123,6 +137,11 @@ export class CalendarComponent implements OnInit {
     return days;
   }
 
+  getNumberOfNights() {
+    if(this.selectedDays.length === 0) { return 0 }
+    return this.selectedDays.length-1
+  }
+
   // buttons
   nextMonth() {
     this.today = new Date(this.today.getFullYear(), this.today.getMonth()+1, 1);
@@ -132,4 +151,27 @@ export class CalendarComponent implements OnInit {
     this.today = new Date(this.today.getFullYear(), this.today.getMonth()-1, 1);
     this.setDaysInTheMonth()
   }
-}
+
+  formButton() {
+    let submit = {
+      people: {
+        adults: this.calendarForm.value.adults,
+        children: this.calendarForm.value.children,
+      },
+      dates: {
+        checkIn: this.getFirstSelectedDay().toLocaleString('en-GB', {day: 'numeric', month: '2-digit', year: 'numeric'}),
+        checkOut: this.getLastSelectedDay().toLocaleString('en-GB', {day: 'numeric', month: '2-digit', year: 'numeric'}),
+      }
+    }
+    console.log(submit)
+  }
+
+  clearSelection() {
+    this.selectedDays = []
+    this.calendarForm.reset()
+  }
+  resetDate(){
+    this.today = new Date()
+    this.setDaysInTheMonth()
+  }
+} 
