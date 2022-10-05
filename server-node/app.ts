@@ -1,14 +1,14 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
 
-import { calendarRouter } from "./routes/calendar";
+import { calendarRouter } from "./routes/booking";
 
 const app = express();
 app.use(express.json());
 app.use(cors())
 
 //routes
-app.use('/api/calendar', calendarRouter);
+app.use('/api/booking', calendarRouter);
 
 
 app.get("/", (req: Request, res: Response) => {

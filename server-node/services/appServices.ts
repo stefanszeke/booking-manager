@@ -1,4 +1,8 @@
 import mysql from "mysql2";
+import dotenv from "dotenv";
+import { Response } from "express";
+import { BookingRequest } from "../models/bookingRequest";
+dotenv.config();
 
 export default class AppServices {
 
@@ -21,6 +25,25 @@ export default class AppServices {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+  }
+
+  public static async bookingValidation(res: Response, bookingRequest: BookingRequest): Promise<boolean> {
+    // const { name, email, phoneNumber, date, time } = data;
+    // const emailRegex = new RegExp("^[\\w._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$");
+    // const phoneNumberRegex = new RegExp("[^0-9\\s+]", "g");
+    // const matchNumbersRegex = new RegExp("[0-9]", "g");
+    // const checkEmail = emailRegex.test(email);
+    // const checkPhoneNumber = !phoneNumberRegex.test(phoneNumber);
+    // const checkPhoneNumberLength = phoneNumber.match(matchNumbersRegex)!.length > 7;
+
+    const {adults, children,} = bookingRequest.people;
+    const {checkIn, checkOut} = bookingRequest.dates;
+    const {email, phone} = bookingRequest.client;
+    
+    if(!checkIn || !checkOut || !adults || !children || !email || !phone) { res.status(401).json({message: "Not all fields are filled"}); return false; }
+
+    if(![1,2,3,4].includes(adults) || ![0,1,2,3].includes(children)) { res.status(401).json({message: "Wrong number of people"}); return false; }
+    return true
   }
 
   public static getConnection(): mysql.ConnectionOptions | undefined {

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, NG_ASYNC_VALIDATORS } from '@angular/forms';
 import { ValidatorService } from "src/app/services/validator.service";
+import { BookingRequest } from "src/app/models/bookingRequest";
+import { ApiService } from "src/app/services/api.service";
 
 @Component({
   selector: 'app-calendar',
@@ -19,7 +21,7 @@ export class CalendarComponent implements OnInit {
 
   totalPay = 0;
 
-  constructor(private formBuilder: FormBuilder, private validator: ValidatorService) { 
+  constructor(private formBuilder: FormBuilder, private validator: ValidatorService, private apiService: ApiService){ 
     this.calendarForm = this.formBuilder.group({
       adults: [1],
       children: [0],
@@ -164,10 +166,10 @@ export class CalendarComponent implements OnInit {
   }
 
   formButton() {
-    let submit = {
+    let bookingRequest: BookingRequest = {
       people: {
-        adults: this.calendarForm.value.adults,
-        children: this.calendarForm.value.children,
+        adults: +this.calendarForm.value.adults,
+        children: +this.calendarForm.value.children,
       },
       client: {
         email: this.calendarForm.value.mail,
@@ -178,7 +180,8 @@ export class CalendarComponent implements OnInit {
         checkOut: this.getLastSelectedDay().toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}),
       }
     }
-    console.log(submit)
+    console.log(bookingRequest)
+    this.apiService.sendBookingRequest(bookingRequest).subscribe()
   }
 
   clearSelection() {
