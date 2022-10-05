@@ -50,39 +50,66 @@
     
   </table>
   
-
-
-
-  <form class="CalendarForm" [formGroup]="calendarForm">
-
-    <label for="adults">Adults:</label>
-    <select name="adults" id="adults" formControlName="adults">
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-      <option value="4">4</option>
-    </select>
-
-    <label for="children">Children:</label>
-    <select name="children" id="children" formControlName="children">
-      <option value="0">0</option>
-      <option value="1">1</option>
-      <option value="2">2</option>
-      <option value="3">3</option>
-    </select>
-  </form>
-
-  <p>adults: {{calendarForm.value.adults}} x 50 = {{calendarForm.value.adults*50}}€</p>
-  <p>adults: {{calendarForm.value.children}} x 30 = {{calendarForm.value.children*30}}€</p>
-  <p> number of nights: {{ getNumberOfNights() }}</p>
-  <p>{{ totalPay.toFixed(2) }} €</p>
-  
-  <p *ngIf="selectedDays.length < 2"> please select at least two days</p>
-  <div *ngIf="selectedDays.length >= 2">
-    <p>check in: {{ selectedDays[0].toLocaleString('en-GB',{weekday:"long",day:"numeric", month:"long"}) }}</p>
-    <p>check out: {{ selectedDays[selectedDays.length-1].toLocaleString('en-GB',{weekday:"long",day:"numeric", month:"long"}) }}</p>
+  <div id='please-select'>
+    <p *ngIf="selectedDays.length < 2"> please select at least two days</p>
   </div>
   
-  <button (click)="formButton()">submit</button>
+  <div class="options-box">
+    <div class="options options1">
+      <form class="CalendarForm" [formGroup]="calendarForm">
+
+        <div class="selector">
+          <label for="adults">Adults:</label>
+          <select name="adults" id="adults" formControlName="adults">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+
+
+
+          <label for="children">Children:</label>
+          <select name="children" id="children" formControlName="children">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+          </select>
+        </div>
+      </form>
+
+      <div *ngIf="selectedDays.length >= 2">
+        <p>check in: {{ selectedDays[0].toLocaleString('en-GB',{weekday:"long",day:"numeric", month:"long"}) }}</p>
+        <p>check out: {{ selectedDays[selectedDays.length-1].toLocaleString('en-GB',{weekday:"long",day:"numeric", month:"long"}) }}</p>
+      </div>
+      
+      <div *ngIf="selectedDays.length < 2">
+        <p>check in: </p>
+        <p>check out: </p>
+      </div>
+
+
+    </div>
+
+    <div class="options options2">
+      <p>adults: {{calendarForm.value.adults}} x 50 = {{calendarForm.value.adults*50}}€</p>
+      <p>children: {{calendarForm.value.children}} x 30 = {{calendarForm.value.children*30}}€</p>
+      <p> number of nights: {{ getNumberOfNights() }}</p>
+
+    </div>
+
+    <div class="options options3">
+      <button (click)="formButton()">submit</button>
+    </div>
+
+    <div class="options options4">
+      <h2>Total: {{ totalPay.toFixed(2) }} €</h2>
+    </div>
+    
+  
+
+  </div>
+
 
 </div>

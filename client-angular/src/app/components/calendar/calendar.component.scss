@@ -43,6 +43,8 @@ td {
   cursor: pointer;
   &:hover {
     filter: brightness(0.9);
+    transform: scale(1.02);
+    font-size: 1.4rem;
   }
   transition: 90ms;
 }
@@ -93,7 +95,57 @@ td {
   height: 30px;
   border-radius: 8px;
   cursor:pointer;
+  transition: 80ms;
   &:hover {
     filter: brightness(1.5);
+    transform: scale(1.05);
   }
 }
+
+#please-select {
+  height: 30px;
+}
+
+.options-box {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px;
+  border: 1px solid rgb(44, 44, 47);
+  border-radius: 8px;
+}
+
+.options {
+  display: grid;
+  padding: 10px;
+}
+
+.options4, .options2 {
+  justify-content: end;
+}
+
+.selector {
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.options select, .options button {
+  border: none;
+  color: rgb(55, 128, 151);
+  border: 2px solid rgb(55, 128, 151);
+  border-radius: 20px;
+  padding: 5px;
+  background: none;
+  width: 100%;
+  transition: 80ms;
+  cursor: pointer;
+  &:hover {
+    filter: brightness(1.5);
+    transform: scale(1.05);
+  }
+}
+
+
+
