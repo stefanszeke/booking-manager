@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, NG_ASYNC_VALIDATORS } from '@angular/forms';
+import { ValidatorService } from "src/app/services/validator.service";
 
 @Component({
   selector: 'app-calendar',
@@ -18,11 +19,13 @@ export class CalendarComponent implements OnInit {
 
   totalPay = 0;
 
-  constructor(private formBuilder: FormBuilder) { 
+  constructor(private formBuilder: FormBuilder, private validator: ValidatorService) { 
     this.calendarForm = this.formBuilder.group({
       adults: [1],
       children: [0],
-      nights: [0]
+      nights: [0],
+      phone: ['', Validators.required, [this.validator.isPhoneNumberValid]],
+      mail: ['', Validators.required,[this.validator.isEmailValid]],
     });
   }
 
@@ -146,6 +149,10 @@ export class CalendarComponent implements OnInit {
     return day < new Date()
   }
 
+  validSelection() {
+  return this.calendarForm.valid && (this.selectedDays.length >= 2)
+  }
+
   // buttons
   nextMonth() {
     this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()+1, 1);
@@ -162,9 +169,13 @@ export class CalendarComponent implements OnInit {
         adults: this.calendarForm.value.adults,
         children: this.calendarForm.value.children,
       },
+      client: {
+        email: this.calendarForm.value.mail,
+        phone: this.calendarForm.value.phone,
+      },
       dates: {
-        checkIn: this.getFirstSelectedDay().toLocaleString('en-GB', {day: 'numeric', month: '2-digit', year: 'numeric'}),
-        checkOut: this.getLastSelectedDay().toLocaleString('en-GB', {day: 'numeric', month: '2-digit', year: 'numeric'}),
+        checkIn: this.getFirstSelectedDay().toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}),
+        checkOut: this.getLastSelectedDay().toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}),
       }
     }
     console.log(submit)
@@ -183,4 +194,5 @@ export class CalendarComponent implements OnInit {
     this.currentMonth = new Date()
     this.setDaysInTheMonth()
   }
+
 } 

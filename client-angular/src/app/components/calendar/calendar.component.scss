@@ -147,5 +147,27 @@ td {
   }
 }
 
+.checkIns {
+  color: rgb(55, 128, 151);
+}
+
+.client-info {
+  display: grid;
+}
+
+.client-info input {
+  border: 2px solid rgb(55, 128, 151);
+  padding: 5px;
+  border-radius: 20px;
+  margin-bottom: 10px;
+}
+
+.invalidInput {
+  background-color: rgb(254, 134, 134);
+}
+
+.invalidMessage {
+  color: red;
+}
 
 

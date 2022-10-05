@@ -77,14 +77,34 @@
             <option value="3">3</option>
           </select>
         </div>
+
+        <div class="client-info">
+          <label for="phone">
+            <span>phone number:</span>
+            <span class='invalidMessage' *ngIf="calendarForm.get('phone')!.hasError('invalidPhoneNumber')"> is invalid</span>
+            <span class='invalidMessage' *ngIf="calendarForm.get('phone')!.hasError('invalidPhoneNumberLength')"> is too short</span>
+          </label>
+          <input [class.invalidInput]="calendarForm.get('phone')!.hasError('invalidPhoneNumber') || calendarForm.get('phone')!.hasError('invalidPhoneNumberLength')" type="tel" name="phone" id="phone" formControlName="phone" placeholder="Phone number">
+        </div>
+
+        <div class="client-info">
+          <label for="mail">
+            <span>e-mail:</span>
+            <span class='invalidMessage' *ngIf="calendarForm.get('mail')!.hasError('invalidEmail')"> is invalid</span>
+          </label>
+          <input [class.invalidInput]="calendarForm.get('mail')!.hasError('invalidEmail')" type="text"  name="mail" id="mail" formControlName="mail" placeholder="email@address">
+
+            
+
+        </div>
       </form>
 
-      <div *ngIf="selectedDays.length >= 2">
+      <div class='checkIns' *ngIf="selectedDays.length >= 2">
         <p>check in: {{ selectedDays[0].toLocaleString('en-GB',{weekday:"long",day:"numeric", month:"long"}) }}</p>
         <p>check out: {{ selectedDays[selectedDays.length-1].toLocaleString('en-GB',{weekday:"long",day:"numeric", month:"long"}) }}</p>
       </div>
       
-      <div *ngIf="selectedDays.length < 2">
+      <div class='checkIns' *ngIf="selectedDays.length < 2">
         <p>check in: </p>
         <p>check out: </p>
       </div>
@@ -100,7 +120,7 @@
     </div>
 
     <div class="options options3">
-      <button (click)="formButton()">submit</button>
+      <button [class.unSelectable]="!validSelection()" (click)="formButton()">submit</button>
     </div>
 
     <div class="options options4">
