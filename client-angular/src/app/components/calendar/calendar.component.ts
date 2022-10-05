@@ -9,7 +9,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 export class CalendarComponent implements OnInit {
 
-  today = new Date();
+  currentMonth = new Date();
   daysInTheMonth:Date[] = []
 
   selectedDays:Date[] = []
@@ -20,9 +20,9 @@ export class CalendarComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder) { 
     this.calendarForm = this.formBuilder.group({
-      adults: [1, Validators.required],
-      children: [0, Validators.required],
-      nights: [0, Validators.required]
+      adults: [1],
+      children: [0],
+      nights: [0]
     });
   }
 
@@ -98,16 +98,16 @@ export class CalendarComponent implements OnInit {
     return this.selectedDays[this.selectedDays.length-1]
   }
   getFirstDayOfMonth() {
-    return new Date(this.today.getFullYear(), this.today.getMonth(), 1);
+    return new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 1);
   }
   getLastDayOfMonth() {
-    return new Date(this.today.getFullYear(), this.today.getMonth() + 1, 0);
+    return new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth() + 1, 0);
   }
   getFirstDayOfNextMonth() {
-    return new Date(this.today.getFullYear(), this.today.getMonth()+1, 1);
+    return new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()+1, 1);
   }
   getLastDayOfPrevMonth() {
-    return new Date(this.today.getFullYear(), this.today.getMonth(), 0);
+    return new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 0);
   }
   isSameDate(date1:Date, date2:Date) {
     return date1.getDate() === date2.getDate() && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear()
@@ -117,7 +117,7 @@ export class CalendarComponent implements OnInit {
     let days:Date[] = []
     let firstDay = this.getFirstDayOfMonth().getDay() == 0 ? 7 : this.getFirstDayOfMonth().getDay() 
     for(let i = 0; i > - firstDay+1; i--) {
-      days.push( new Date(this.today.getFullYear(), this.today.getMonth(), i) )
+      days.push( new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), i) )
     }
     return days.reverse();
   }
@@ -125,14 +125,14 @@ export class CalendarComponent implements OnInit {
     let days:Date[] = []
     let lastDay = this.getLastDayOfMonth().getDay() == 0 ? 7 : this.getLastDayOfMonth().getDay()
     for(let i = 1; i < 8-lastDay; i++) {
-      days.push( new Date(this.today.getFullYear(), this.today.getMonth(), this.getLastDayOfMonth().getDate()+i) )
+      days.push( new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), this.getLastDayOfMonth().getDate()+i) )
     }
     return days;
   }
   getDaysInMonth():Date[] {
     let days:Date[] = [];
     for (let i = 1; i <= this.getLastDayOfMonth().getDate(); i++) {
-      days.push( new Date(this.today.getFullYear(), this.today.getMonth(), i) );
+      days.push( new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), i) );
     }
     return days;
   }
@@ -142,13 +142,17 @@ export class CalendarComponent implements OnInit {
     return this.selectedDays.length-1
   }
 
+  isBeforeToday(day:Date) {
+    return day < new Date()
+  }
+
   // buttons
   nextMonth() {
-    this.today = new Date(this.today.getFullYear(), this.today.getMonth()+1, 1);
+    this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()+1, 1);
     this.setDaysInTheMonth()
   }
   prevMonth() {
-    this.today = new Date(this.today.getFullYear(), this.today.getMonth()-1, 1);
+    this.currentMonth = new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth()-1, 1);
     this.setDaysInTheMonth()
   }
 
@@ -168,10 +172,15 @@ export class CalendarComponent implements OnInit {
 
   clearSelection() {
     this.selectedDays = []
-    this.calendarForm.reset()
+    this.calendarForm.patchValue({
+      adults: 1,
+      children: 0
+    })
+    this.totalPay = 0
   }
+
   resetDate(){
-    this.today = new Date()
+    this.currentMonth = new Date()
     this.setDaysInTheMonth()
   }
 } 

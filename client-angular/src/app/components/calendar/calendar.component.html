@@ -4,8 +4,8 @@
 
 
   <div class="calender-head">
-    <h2>{{ today.toLocaleString('en-GB',{month:"long"}) }}</h2>
-    <h2>{{ today.getFullYear() }}</h2>
+    <h2>{{ currentMonth.toLocaleString('en-GB',{month:"long"}) }}</h2>
+    <h2>{{ currentMonth.getFullYear() }}</h2>
   </div>
 
   <table>
@@ -24,9 +24,10 @@
       <tr>
         <td *ngFor="let day of daysInTheMonth"
         [ngClass]="{
-          'thisMonth':today.getMonth() === day.getMonth(),
-          'notThisMonth':today.getMonth() != day.getMonth(),
-          'selected': isSelected(day)
+          'thisMonth':currentMonth.getMonth() === day.getMonth(),
+          'notThisMonth':currentMonth.getMonth() != day.getMonth(),
+          'selected': isSelected(day),
+          'unSelectable': isBeforeToday(day)
         }"
   
         (click)="selectDay(day)"
