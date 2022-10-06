@@ -12,7 +12,7 @@ app.use('/api/booking', calendarRouter);
 
 
 app.get("/", (req: Request, res: Response) => {
-  res.json({message: "Hello World!"});
+  res.send("Hello World");
 })
 
 const PORT = process.env.PORT || 3700;
