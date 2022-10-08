@@ -1,6 +1,6 @@
 .wrapper {
   margin: 20px auto;
-  width: 700px;
+  max-width: 700px;
   display: grid;
   justify-content: center;
 }
@@ -170,4 +170,25 @@ td {
   color: red;
 }
 
+@media screen and (max-width: 640px) {
+  .table-buttons button {
+    font-size: 0.7rem;
+    width: 70px;
+  }
+  .wrapper {
+    margin: 20px 10px;
+  }
+  .table-calendar {
+    min-height: 230px;
+  }
+
+  td, th {
+    width: auto;
+    height: 30px;
+  }
+  .options-box {
+    font-size: 0.7rem;
+  }
+}
+  
 
