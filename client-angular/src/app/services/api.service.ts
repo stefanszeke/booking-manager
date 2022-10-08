@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from "src/environments/environment";
+import { Observable } from "rxjs";
+import { BookingRequest } from "../models/bookingRequest";
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +17,7 @@ export class ApiService {
 
   constructor(private http: HttpClient) { }
 
-  sendBookingRequest(data: any) {
-    return this.http.post(`${this.url}/booking`, data, { headers: this.headers });
+  sendBookingRequest(data: BookingRequest): Observable<{message: string}> {
+    return this.http.post<{message: string}>(`${this.url}/booking`, data, { headers: this.headers });
   }
 }

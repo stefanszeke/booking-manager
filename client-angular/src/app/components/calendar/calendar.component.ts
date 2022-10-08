@@ -20,6 +20,7 @@ export class CalendarComponent implements OnInit {
   calendarForm: FormGroup;
 
   totalPay = 0;
+  message = '';
 
   constructor(private formBuilder: FormBuilder, private validator: ValidatorService, private apiService: ApiService){ 
     this.calendarForm = this.formBuilder.group({
@@ -180,15 +181,25 @@ export class CalendarComponent implements OnInit {
         checkOut: this.getLastSelectedDay().toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}),
       }
     }
-    console.log(bookingRequest)
-    this.apiService.sendBookingRequest(bookingRequest).subscribe()
+
+    this.apiService.sendBookingRequest(bookingRequest).subscribe(res => {
+      if(res.message = "Booking request sent") {
+        this.clearSelection()
+        this.resetDate()
+        this.message = "Booking request successfully sent"
+      } else {
+        this.message = "Something went wrong"
+      }
+    })
   }
 
   clearSelection() {
     this.selectedDays = []
     this.calendarForm.patchValue({
       adults: 1,
-      children: 0
+      children: 0,
+      mail: '',
+      phone: '',
     })
     this.totalPay = 0
   }
