@@ -18,13 +18,13 @@
   min-height: 360px;
 }
 
-tr {
+#calendar tr {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   
 }
 
-td,th {
+#calendar td,th {
   border: 1px solid rgb(255, 255, 255);
   border-radius: 8px;
   display: grid;
@@ -34,21 +34,22 @@ td,th {
   user-select: none;
 }
 
-th {
+#calendar th {
   background-color: rgb(44, 44, 47);
   color: white;
 }
 
-td {
+#calendar td {
   cursor: pointer;
-  &:hover {
+  transition: 90ms;
+}
+@media (hover) {
+  #calendar td:hover {
     filter: brightness(0.9);
     transform: scale(1.02);
     font-size: 1.4rem;
   }
-  transition: 90ms;
 }
-
 
 
 .thisMonth {
@@ -96,7 +97,9 @@ td {
   border-radius: 8px;
   cursor:pointer;
   transition: 80ms;
-  &:hover {
+}
+@media (hover) {
+  .table-buttons button:hover {
     filter: brightness(1.5);
     transform: scale(1.05);
   }
@@ -123,6 +126,30 @@ td {
   justify-content: end;
 }
 
+.options2 {
+  align-self: center;
+}
+
+.options2 table{
+  border-collapse: collapse;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.options2 td {
+  padding: 4px;
+
+}
+
+.options2 tr:nth-child(2n+1) {
+  color: white;
+  background-color: rgb(44, 44, 47);
+}
+
+
+
+
+
 .selector {
   display: grid;
   grid-auto-flow: column;
@@ -141,7 +168,9 @@ td {
   width: 100%;
   transition: 80ms;
   cursor: pointer;
-  &:hover {
+}
+@media (hover) {
+  .options select:hover, .options button:hover {
     filter: brightness(1.5);
     transform: scale(1.05);
   }
@@ -170,6 +199,8 @@ td {
   color: red;
 }
 
+
+
 @media screen and (max-width: 640px) {
   .table-buttons button {
     font-size: 0.7rem;
@@ -182,7 +213,7 @@ td {
     min-height: 230px;
   }
 
-  td, th {
+  #calendar td, th {
     width: auto;
     height: 30px;
   }

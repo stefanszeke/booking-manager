@@ -8,7 +8,7 @@
     <h2>{{ currentMonth.getFullYear() }}</h2>
   </div>
 
-  <table>
+  <table id="calendar">
 
     <div class="table-calendar">
       <tr>
@@ -113,10 +113,29 @@
     </div>
 
     <div class="options options2">
-      <p>adults: {{calendarForm.value.adults}} x 50 = {{calendarForm.value.adults*50}}€</p>
+      <!-- <p>adults: {{calendarForm.value.adults}} x 50 = {{calendarForm.value.adults*50}}€</p>
       <p>children: {{calendarForm.value.children}} x 30 = {{calendarForm.value.children*30}}€</p>
-      <p> number of nights: {{ getNumberOfNights() }}</p>
-
+      <p> number of nights: {{ getNumberOfNights() }}</p> -->
+      <table>
+        <tr>
+          <td>adults: </td>
+          <td>{{calendarForm.value.adults}}x50</td>
+          <td>=</td>
+          <td>{{calendarForm.value.adults*50}}€</td>
+        </tr>
+        <tr>
+          <td>children: </td>
+          <td>{{calendarForm.value.children}}x30</td>
+          <td>=</td>
+          <td>{{calendarForm.value.children*30}}€</td>
+        </tr>
+        <tr>
+          <td>nights: </td>
+          <td></td>
+          <td></td>
+          <td>{{ getNumberOfNights() }}</td>
+        </tr>
+      </table>
     </div>
 
     <div class="options options3">
