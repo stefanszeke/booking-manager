@@ -6,7 +6,7 @@ import { calendarRouter } from "./routes/booking";
 
 const app = express();
 app.use(express.json());
-app.use(cors( {origin: ['http://localhost:4200','https://booking-manager-delta.vercel.app/api']} ))
+app.use(cors( {origin: ['http://localhost:4200','https://booking-manager-delta.vercel.app/']} ))
 app.use(express.static('public'));
 
 //routes
