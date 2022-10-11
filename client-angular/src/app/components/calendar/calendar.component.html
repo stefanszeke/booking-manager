@@ -10,7 +10,7 @@
 
   <table id="calendar">
 
-    <div *ngIf="(isLoadingReserved$ | async)" class="calendar-overlay">
+    <div *ngIf="(isLoadingReserved$ | async) || (reservedError$ | async)" class="calendar-overlay">
       <h2 *ngIf="(isLoadingReserved$ | async)"  >Loading ...</h2>
       <h2 *ngIf="(reservedError$ | async)" >Something went Wrong</h2>
     </div>
