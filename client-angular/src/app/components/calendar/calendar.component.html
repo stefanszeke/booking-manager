@@ -10,6 +10,11 @@
 
   <table id="calendar">
 
+    <div *ngIf="(isLoadingReserved$ | async)" class="calendar-overlay">
+      <h2 *ngIf="(isLoadingReserved$ | async)"  >Loading ...</h2>
+      <h2 *ngIf="(reservedError$ | async)" >Something went Wrong</h2>
+    </div>
+
     <div class="table-calendar">
       <tr>
         <th>Mon</th>
@@ -27,7 +32,8 @@
           'thisMonth':currentMonth.getMonth() === day.getMonth(),
           'notThisMonth':currentMonth.getMonth() != day.getMonth(),
           'selected': isSelected(day),
-          'unSelectable': isBeforeToday(day)
+          'unSelectable': isBeforeToday(day),
+          'reserved': isReserved(day)
         }"
   
         (click)="selectDay(day)"
@@ -113,9 +119,20 @@
     </div>
 
     <div class="options options2">
-      <!-- <p>adults: {{calendarForm.value.adults}} x 50 = {{calendarForm.value.adults*50}}€</p>
-      <p>children: {{calendarForm.value.children}} x 30 = {{calendarForm.value.children*30}}€</p>
-      <p> number of nights: {{ getNumberOfNights() }}</p> -->
+
+      <div class="legend">
+        <div class="legend-item">
+          <div class="colorBox colorBoxReserved"></div>
+          <p>-</p>
+          <p>reserved</p>
+        </div>
+        <div class="legend-item">
+          <div class="colorBox colorBoxSelected "></div>
+          <p>-</p>
+          <p>selected</p>
+        </div>
+      </div>
+
       <table>
         <tr>
           <td>adults: </td>
@@ -148,7 +165,17 @@
     
     
   </div>
-  <h2>{{message}}</h2>
+
+  <div class="message-window-overlay" [class.hidden]="!showMessageWindow" (click)="closeMessageWindow()">
+    <div class="message-window hidden" [class.hidden]="!showMessageWindow">
+      <h2 [class.disabledCloseMessageWindow]="(isSubmitting$ | async)" (click)="closeMessageWindow()" id="closeMessageWindow">x</h2>
+      <div id="messageWindowText">
+        <h2 *ngIf="(isSubmitting$ | async)"> sending booking request ...</h2>
+        <h2 *ngIf="!(isSubmitting$ | async) && (submittingMessage$ | async)">{{submittingMessage$ | async}}</h2>
+        <h2 *ngIf="!(isSubmitting$ | async) && (submittingError$ | async)">{{submittingError$ | async}}</h2>
+      </div>
+    </div>
+  </div>
 
 
 </div>

@@ -3,6 +3,11 @@ import { FormGroup, FormBuilder, Validators, NG_ASYNC_VALIDATORS } from '@angula
 import { ValidatorService } from "src/app/services/validator.service";
 import { BookingRequest } from "src/app/models/bookingRequest";
 import { ApiService } from "src/app/services/api.service";
+import { Store } from "@ngrx/store";
+import { AppState } from "src/app/store/app.state";
+import { Observable } from "rxjs";
+import * as SubmitActions from "../../store/submit/submit.actions";
+import * as ReservedActions from "../../store/reserved/reserved.actions";
 
 @Component({
   selector: 'app-calendar',
@@ -22,7 +27,21 @@ export class CalendarComponent implements OnInit {
   totalPay = 0;
   message = '';
 
-  constructor(private formBuilder: FormBuilder, private validator: ValidatorService, private apiService: ApiService){ 
+  reservedDates:string[] = []
+
+  showMessageWindow: boolean = false;
+
+
+
+  isSubmitting$: Observable<boolean> = this.store.select(state => state.submit.isSubmitting)
+  submittingMessage$: Observable<string> = this.store.select(state => state.submit.message)
+  submittingError$:Observable<string | null> = this.store.select(state => state.submit.error)
+
+  isLoadingReserved$: Observable<boolean> = this.store.select(state => state.reserved.isLoadingReserved)
+  reservedDates$: Observable<string[]> = this.store.select(state => state.reserved.reserved)
+  reservedError$: Observable<string | null> = this.store.select(state => state.reserved.error)
+
+  constructor(private formBuilder: FormBuilder, private validator: ValidatorService, private apiService: ApiService, private store: Store<AppState>){ 
     this.calendarForm = this.formBuilder.group({
       adults: [1],
       children: [0],
@@ -33,6 +52,8 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(ReservedActions.requestReserved())
+
     this.setDaysInTheMonth();
 
     this.calendarForm.valueChanges.subscribe(value => {
@@ -115,8 +136,18 @@ export class CalendarComponent implements OnInit {
   getLastDayOfPrevMonth() {
     return new Date(this.currentMonth.getFullYear(), this.currentMonth.getMonth(), 0);
   }
+
   isSameDate(date1:Date, date2:Date) {
     return date1.getDate() === date2.getDate() && date1.getMonth() === date2.getMonth() && date1.getFullYear() === date2.getFullYear()
+  }
+  isReserved(date:Date) {
+    let reserved = false
+      this.reservedDates$.subscribe(reservedDate => {
+        reservedDate.forEach(dateString => {
+          if(this.isSameDate(date, new Date(dateString))) { reserved = true }
+        })
+      })
+    return reserved
   }
 
   getDaysFromMonday():Date[] {
@@ -167,6 +198,8 @@ export class CalendarComponent implements OnInit {
   }
 
   formButton() {
+    let firstDay = this.getFirstSelectedDay()
+    let lastDay = this.getLastSelectedDay()
     let bookingRequest: BookingRequest = {
       people: {
         adults: +this.calendarForm.value.adults,
@@ -177,18 +210,16 @@ export class CalendarComponent implements OnInit {
         phone: this.calendarForm.value.phone,
       },
       dates: {
-        checkIn: this.getFirstSelectedDay().toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}),
-        checkOut: this.getLastSelectedDay().toLocaleString('en-GB', {day: '2-digit', month: '2-digit', year: 'numeric'}),
+        checkIn: this.getFirstSelectedDay().toLocaleDateString(),
+        checkOut: this.getLastSelectedDay().toLocaleDateString(),
       }
     }
-
-    this.apiService.sendBookingRequest(bookingRequest).subscribe(res => {
-      if(res.message = "Booking request sent") {
-        this.clearSelection()
+    this.showMessageWindow = true
+    this.store.dispatch(SubmitActions.requestSubmit(bookingRequest))
+    this.submittingMessage$.subscribe(message => {
+      if(message === 'Booking request sent') {
+        this.clearSelection(),
         this.resetDate()
-        this.message = "Booking request successfully sent"
-      } else {
-        this.message = "Something went wrong"
       }
     })
   }
@@ -207,6 +238,14 @@ export class CalendarComponent implements OnInit {
   resetDate(){
     this.currentMonth = new Date()
     this.setDaysInTheMonth()
+  }
+
+  closeMessageWindow() {
+    this.isSubmitting$.subscribe(isSubmitting => {
+      if(!isSubmitting) {
+        this.showMessageWindow = false
+      }
+    }).unsubscribe()
   }
 
 } 

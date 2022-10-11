@@ -21,3 +21,20 @@ export const bookingRequest = async (req: Request, res: Response) => {
   } catch (error) { console.log(error) }
 
 }
+
+export const getReserved = async (req: Request, res: Response) => {
+  try {
+    let query = `SELECT * FROM bookings WHERE status = 'reserved'`
+
+    let result: any = await Database.useMySql(query)
+    let reservedDates: string[] = []
+    
+    result.forEach((item: any) => {
+      let datesToPush: string[] = AppServices.getDatesBetween(item.checkin, item.checkout)
+      reservedDates.push(...datesToPush)
+    })
+
+    res.json(reservedDates)
+
+  } catch (error) { console.log(error) }
+}

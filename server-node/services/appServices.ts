@@ -46,6 +46,21 @@ export default class AppServices {
     return true
   }
 
+  public static getDatesBetween(startDate: string, endDate: string): string[] {
+    let dates: string[] = [startDate];
+    let nextDay = new Date(startDate);
+
+    let isEndDate: boolean = nextDay.toLocaleDateString() === new Date(endDate).toLocaleDateString();
+
+    while(!isEndDate) {
+      nextDay.setDate(nextDay.getDate() + 1);
+      dates.push(nextDay.toLocaleDateString());
+      isEndDate = nextDay.toLocaleDateString() === new Date(endDate).toLocaleDateString();
+    }
+    
+    return dates;
+  }
+
   public static getConnection(): mysql.ConnectionOptions | undefined {
     if(process.env.NODE_ENV === 'development') return AppServices.dockerConnection;
     if(process.env.NODE_ENV === 'production') return AppServices.mysqlConnection;

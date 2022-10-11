@@ -20,4 +20,7 @@ export class ApiService {
   sendBookingRequest(data: BookingRequest): Observable<{message: string}> {
     return this.http.post<{message: string}>(`${this.url}/booking`, data, { headers: this.headers });
   }
+  getReservedDates(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.url}/booking/reserved`);
+  }
 }
