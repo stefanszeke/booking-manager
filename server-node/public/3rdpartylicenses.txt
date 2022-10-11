@@ -13,6 +13,12 @@ MIT
 @angular/router
 MIT
 
+@ngrx/effects
+MIT
+
+@ngrx/store
+MIT
+
 rxjs
 Apache-2.0
                                Apache License
