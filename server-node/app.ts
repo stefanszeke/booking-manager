@@ -12,6 +12,9 @@ app.use(express.static('public'));
 //routes
 app.use('/api/booking', calendarRouter);
 
+app.get("test", (req: Request, res: Response) => {
+    res.send("test");
+});
 
 app.get("*", (req: Request, res: Response) => {
   res.redirect("/");
