@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import cors from 'cors';
-
+import path from 'path';
 
 import { calendarRouter } from "./routes/booking";
 
@@ -11,6 +11,10 @@ app.use(express.static('public'));
 
 //routes
 app.use('/api/booking', calendarRouter);
+
+app.get('/', (req: Request, res: Response) => {
+    res.sendFile(path.join(__dirname, '../public/index.html'));
+});
 
 app.get("test", (req: Request, res: Response) => {
     res.send("test");
