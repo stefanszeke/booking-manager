@@ -11,16 +11,18 @@ export class ApiService {
 
   url = environment.apiUrl;
 
-  headers = new HttpHeaders({
-    'Content-Type': 'application/json',
-  });
+  options = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    }),
+  }
 
   constructor(private http: HttpClient) { }
 
   sendBookingRequest(data: BookingRequest): Observable<{message: string}> {
-    return this.http.post<{message: string}>(`${this.url}/booking`, data, { headers: this.headers });
+    return this.http.post<{message: string}>(`${this.url}/booking`, data, this.options);
   }
   getReservedDates(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.url}/booking/reserved`);
+    return this.http.get<string[]>(`${this.url}/booking/reserved`, this.options);
   }
 }
