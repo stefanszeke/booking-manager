@@ -198,8 +198,6 @@ export class CalendarComponent implements OnInit {
   }
 
   formButton() {
-    let firstDay = this.getFirstSelectedDay()
-    let lastDay = this.getLastSelectedDay()
     let bookingRequest: BookingRequest = {
       people: {
         adults: +this.calendarForm.value.adults,
