@@ -208,8 +208,8 @@ export class CalendarComponent implements OnInit {
         phone: this.calendarForm.value.phone,
       },
       dates: {
-        checkIn: this.getFirstSelectedDay().toLocaleDateString(),
-        checkOut: this.getLastSelectedDay().toLocaleDateString(),
+        checkIn: this.getFirstSelectedDay().getTime(),
+        checkOut: this.getLastSelectedDay().getTime(),
       }
     }
     this.showMessageWindow = true

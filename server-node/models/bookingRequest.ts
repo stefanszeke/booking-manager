@@ -4,8 +4,8 @@ export interface BookingRequest {
     phone: string;
   },
   dates: {
-    checkIn: string;
-    checkOut: string;
+    checkIn: number;
+    checkOut: number;
   },
   people: {
     adults: number;
