@@ -1,5 +1,9 @@
-# booking-manager
+# booking Calendar
 
-## [Client Live](https://booking-manager.onrender.com/)
+## Booking Calendar: [Client Live](https://booking-manager.onrender.com/)
+## Booking Manager: [Admin Live](https://booking-manager-admin.onrender.com/)
 
-admin: work in progress
+</br >
+</br >
+
+### Booking manager source code: [Github](https://github.com/stefanszeke/booking-manager-admin)
