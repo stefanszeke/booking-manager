@@ -36,10 +36,9 @@ export default class AppServices {
     // const checkPhoneNumber = !phoneNumberRegex.test(phoneNumber);
     // const checkPhoneNumberLength = phoneNumber.match(matchNumbersRegex)!.length > 7;
 
-    const {adults, children,} = bookingRequest.people;
-    const {checkIn, checkOut} = bookingRequest.dates;
-    const {email, phone} = bookingRequest.client;
+    const {adults, children, checkIn, checkOut, email, phone} = bookingRequest;
 
+ 
     if(!checkIn || !checkOut || !adults || !email || !phone) { res.status(401).json({message: "Not all fields are filled"}); return false; }
 
     if(![1,2,3,4].includes(adults) || ![0,1,2,3].includes(children)) { res.status(401).json({message: "Wrong number of people"}); return false; }

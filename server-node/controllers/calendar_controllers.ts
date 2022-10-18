@@ -12,7 +12,7 @@ export const bookingRequest = async (req: Request, res: Response) => {
     if(!validation) return;
 
     let insertQuery = `INSERT INTO bookings (checkIn, checkOut, adults, children, email, phone, status) VALUES (?, ?, ?, ?, ?, ?, ?)`
-    let insertOptions = [bookingRequest.dates.checkIn, bookingRequest.dates.checkOut, bookingRequest.people.adults, bookingRequest.people.children, bookingRequest.client.email, bookingRequest.client.phone, "pending"]
+    let insertOptions = [bookingRequest.checkIn, bookingRequest.checkOut, bookingRequest.adults, bookingRequest.children, bookingRequest.email, bookingRequest.phone, "pending"]
   
     await Database.useMySql(insertQuery, insertOptions)
   

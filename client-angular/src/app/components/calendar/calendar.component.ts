@@ -199,18 +199,12 @@ export class CalendarComponent implements OnInit {
 
   formButton() {
     let bookingRequest: BookingRequest = {
-      people: {
-        adults: +this.calendarForm.value.adults,
-        children: +this.calendarForm.value.children,
-      },
-      client: {
-        email: this.calendarForm.value.mail,
-        phone: this.calendarForm.value.phone,
-      },
-      dates: {
-        checkIn: this.getFirstSelectedDay().getTime(),
-        checkOut: this.getLastSelectedDay().getTime(),
-      }
+      adults: +this.calendarForm.value.adults,
+      children: +this.calendarForm.value.children,
+      email: this.calendarForm.value.mail,
+      phone: this.calendarForm.value.phone,
+      checkIn: this.getFirstSelectedDay().getTime(),
+      checkOut: this.getLastSelectedDay().getTime(),
     }
     this.showMessageWindow = true
     this.store.dispatch(SubmitActions.requestSubmit(bookingRequest))

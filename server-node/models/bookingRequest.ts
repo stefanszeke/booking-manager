@@ -1,15 +1,9 @@
 export interface BookingRequest {
-  client: {
-    email: string;
-    phone: string;
-  },
-  dates: {
-    checkIn: number;
-    checkOut: number;
-  },
-  people: {
-    adults: number;
-    children: number;
-  },
+  email: string;
+  phone: string;
+  checkIn: number;
+  checkOut: number;
+  adults: number;
+  children: number;
   status: string;
 }
