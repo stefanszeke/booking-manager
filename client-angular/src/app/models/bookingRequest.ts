@@ -1,8 +1,8 @@
 export interface BookingRequest {
   email: string;
   phone: string;
-  checkIn: number;
-  checkOut: number;
+  checkIn: string;
+  checkOut: string;
   adults: number;
   children: number;
 }

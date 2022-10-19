@@ -203,9 +203,10 @@ export class CalendarComponent implements OnInit {
       children: +this.calendarForm.value.children,
       email: this.calendarForm.value.mail,
       phone: this.calendarForm.value.phone,
-      checkIn: this.getFirstSelectedDay().getTime(),
-      checkOut: this.getLastSelectedDay().getTime(),
+      checkIn: this.getFirstSelectedDay().toISOString(),
+      checkOut: this.getLastSelectedDay().toISOString(),
     }
+    console.log(bookingRequest)
     this.showMessageWindow = true
     this.store.dispatch(SubmitActions.requestSubmit(bookingRequest))
     this.submittingMessage$.subscribe(message => {
