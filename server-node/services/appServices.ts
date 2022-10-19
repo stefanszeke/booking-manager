@@ -47,8 +47,8 @@ export default class AppServices {
 
   public static getDatesBetween(startDate: string, endDate: string): string[] {
     
-    startDate = new Date(+startDate).toLocaleDateString();
-    endDate = new Date(+endDate).toLocaleDateString();
+    startDate = new Date(startDate).toLocaleDateString();
+    endDate = new Date(endDate).toLocaleDateString();
 
     let dates: string[] = [startDate];
     let nextDay = new Date(startDate);
